@@ -1,0 +1,44 @@
+.header {
+    background-color: #a0b5b7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .logo {
+    text-align: center;
+  }
+  
+  .logo h1 {
+    color: white;
+    margin: 0;
+    font-size: 128px;
+  }
+  
+  .logo p {
+    color: white;
+    margin: 0;
+    font-size: 1em;
+  }
+  
+  .nav {
+    max-width: 800px;
+    width: 500px;
+    height: 54px;
+    background-color: rgba(104, 104, 104, 0.5); /* 80% 투명도 */
+    border-radius: 50px;
+    margin-top: 20px; /* logo와의 간격 조정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 0 20px; /* 링크 간 간격 조정 */
+  }
+  
+  .nav-link:hover {
+    background-color: #6b8284;
+  }
