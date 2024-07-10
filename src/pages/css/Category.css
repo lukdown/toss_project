@@ -101,12 +101,7 @@ body {
   
   ul {
     padding-left: 30px;
-    margin: 15px 0;
-  }
-  
-  h3 {
-    margin: 0 0 20px;
-    color: #333;
+    margin: 1px 0;
   }
   
   textarea {
@@ -118,4 +113,60 @@ body {
     resize: vertical;
     box-sizing: border-box;
     margin: 15px 0;
+  }
+
+
+  /* 플레이어 css*/
+  .feedback-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .toss-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .toss-header h3 {
+    margin: 0;
+    margin-right: 15px;
+  }
+  
+  
+  .toss-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .toss-header h3 {
+    margin: 0;
+  }
+  
+  .toss-content {
+    margin-bottom: 15px;
+  }
+  
+  .toss-content p {
+    margin-bottom: 10px;
+  }
+  
+  .score-box {
+    display: inline-flex;
+    align-items: center;
+    background-color: #fff2f2;
+    border-radius: 50px;
+    padding: 5px 0px 5px 30px;
+    font-weight: bold;
+    width: 630px;
+    min-height: 50px;
+  }
+  .score-box-id{
+    color: #ff2459;
+  }
+  .score-value {
+    margin-left: 5px;
+
   }
