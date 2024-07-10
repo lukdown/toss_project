@@ -19,10 +19,4 @@ function App() {
   );
 }
 
-<<<<<<< HEAD
-//sddsf
-sdfsdf
 export default App;
-=======
-export default App;
->>>>>>> test-1

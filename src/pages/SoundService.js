@@ -15,18 +15,26 @@ const SoundService = ({ audioId }) => {
         }
         const blob = await response.blob();
         setAudioBlob(blob);
-        audioRef.current.src = URL.createObjectURL(blob);
+        const url = URL.createObjectURL(blob);
+        audioRef.current.src = url;
+
+        return url; // URL을 반환합니다
       } catch (error) {
         console.error('Error fetching audio:', error);
       }
     };
 
+    let audioUrl;
     if (audioId) {
-      fetchAudio();
+      fetchAudio().then(url => {
+        audioUrl = url;
+      });
     }
 
     return () => {
-      URL.revokeObjectURL(audioRef.current.src);
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
     };
   }, [audioId]);
 

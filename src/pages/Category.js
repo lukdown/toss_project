@@ -3,6 +3,7 @@ import '../App.css';
 import './css/Category.css';
 import AudioRecorder from './AudioRecorder';
 import SoundService from './SoundService';
+import '../Font.css';
 
 function Category() {
   const [feedbackAudioId, setFeedbackAudioId] = useState(null);
@@ -21,21 +22,13 @@ function Category() {
 
   return (
     <div className="app">
-      <header>
-        <h1>ToSS</h1>
-        <p>Toeic Smart Speaking</p>
-      </header>
-      <nav>
-        <button>사진 보고 Toss 추천 받기</button>
-        <button>카테고리별 연습하기</button>
-      </nav>
       <main>
         <div className="image-container">
           <img src="placeholder.jpg" alt="연습 이미지" />
         </div>
         <AudioRecorder onRecordingComplete={handleRecordingComplete} />
         <div className="user-input">
-          <h3>당신의 문장</h3>
+          <h3 >당신의 문장</h3>
           <p>In this picture, I can see a cat and a dog together. 
             The cat appears to being a tabby with orange and white fur, while the dog looks like a golden retriever. 
             They seem to be living room, sitting on a looking comfortable-couch.</p>
