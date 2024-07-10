@@ -132,16 +132,12 @@ const AudioRecorder = ({ onRecordingComplete }) => {
       {audioURL && (
         <>
           <audio src={audioURL} controls className="audio-player" />
-<<<<<<< HEAD
-          <button className="send-button" onClick={sendRecording}>녹음 보내기</button>
-=======
           <button className="send-button" onClick={sendRecording}>
             <svg viewBox="0 0 24 24" className="icon">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
             </svg>
             전송
           </button>
->>>>>>> test-1
         </>
       )}
     </div>
