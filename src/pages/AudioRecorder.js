@@ -10,7 +10,6 @@ const AudioRecorder = ({ onRecordingComplete }) => {
   const [audioBlob, setAudioBlob] = useState(null);
 
   const mediaRecorder = useRef(null);
-  const timerRef = useRef(null);
   const chunksRef = useRef([]);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ const AudioRecorder = ({ onRecordingComplete }) => {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorder.current = new MediaRecorder(stream);
+      mediaRecorder.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
       
       mediaRecorder.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
@@ -43,7 +42,7 @@ const AudioRecorder = ({ onRecordingComplete }) => {
       };
 
       mediaRecorder.current.onstop = () => {
-        const audioBlob = new Blob(chunksRef.current, { type: 'audio/wav' });
+        const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
         const url = URL.createObjectURL(audioBlob);
         setAudioURL(url);
         setAudioBlob(audioBlob);
@@ -91,19 +90,31 @@ const AudioRecorder = ({ onRecordingComplete }) => {
   const sendRecording = async () => {
     if (audioBlob) {
       try {
+        console.log('Audio blob type:', audioBlob.type);
+        console.log('Audio blob size:', audioBlob.size);
+
         const formData = new FormData();
-        formData.append('audio', audioBlob, 'recording.wav');
+        formData.append('file', audioBlob, 'recording.webm');
         
-        const response = await axios.post('/api/upload-audio', formData, {
+        const response = await axios.post('http://127.0.0.1:8000/api/automaticspeechrecognition', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
         
         console.log('Audio uploaded successfully', response.data);
-        // 여기서 필요한 추가 작업을 수행할 수 있습니다.
       } catch (error) {
         console.error('Error uploading audio', error);
+        if (error.response) {
+          console.log('Response data:', error.response.data);
+          console.log('Response status:', error.response.status);
+          console.log('Response headers:', error.response.headers);
+        } else if (error.request) {
+          console.log('Request data:', error.request);
+        } else {
+          console.log('Error message:', error.message);
+        }
+        console.log('Error config:', error.config);
       }
     }
   };
@@ -152,6 +163,7 @@ const AudioRecorder = ({ onRecordingComplete }) => {
             <svg viewBox="0 0 24 24" className="icon">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
             </svg>
+            전송
           </button>
         </>
       )}
