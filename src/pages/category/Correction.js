@@ -8,7 +8,7 @@ function Correction() {
       <p>They seem to be <span className="correction-green">in an outdoor setting,</span> not sitting on a <span className="correction-red">comfortable-looking</span> couch.</p>
       <p><span className="correction-blue">appears to be ~</span> : 안쪽에서 더 자세히 보기</p>
       <p><span className="correction-blue">mixed breed puppy</span> : 안내는 옮은 이름이지만 하나만 맞습니다</p>
-      <p className="score">점수: 82/145</p>
+      <p className="score">점수: 8rfafdafad2/145</p>
     </div>
   );
 }
