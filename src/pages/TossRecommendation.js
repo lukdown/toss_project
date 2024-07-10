@@ -1,7 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import TossRecommendationContent from './TossRecommendationContent';
+import SoundService from './SoundService';
 import './css/TossRecommendation.css';
+import axios from 'axios';
 
 function TossRecommendation() {
   const [image, setImage] = useState(null);
@@ -10,7 +12,7 @@ function TossRecommendation() {
   const [audioId, setAudioId] = useState(null);
   const [recommendationInfo, setRecommendationInfo] = useState(null);
 
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
       setImage(URL.createObjectURL(file));
@@ -19,11 +21,33 @@ function TossRecommendation() {
       setRecommendationInfo(null);
       
       // 실제 API 호출을 시뮬레이션합니다.
-      setTimeout(() => {
-        setLoading(false);
-        setShowContent(true);
-        setAudioId('some-audio-id');
-      }, 3000);
+
+      try {
+      // FormData 객체 생성
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // API 호출
+      const response = await axios({
+        method: 'post',
+        url:'http://127.0.0.1:9909/image_description/', 
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      // API 응답 처리
+      console.log(response.data)
+      setLoading(false);
+      setShowContent(true);// 응답에서 audioId를 가져옴
+      setText(response.data)
+      // 필요한 경우 다른 상태도 업데이트
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      setLoading(false);
+      // 에러 처리 (예: 사용자에게 에러 메시지 표시)
+    }
     }
   }, []);
 
@@ -44,7 +68,22 @@ function TossRecommendation() {
   const handleRecommendationComplete = (info) => {
     setRecommendationInfo(info);
   };
+  const [text, setText] = useState('');
+  const fullText = text;
 
+  // useEffect(() => {
+  //   let index = 0;
+  //   const timer = setInterval(() => {
+  //     if (index < fullText.length) {
+  //       setText((prev) => prev + fullText.charAt(index));
+  //       index++;
+  //     } else {
+  //       clearInterval(timer);
+  //     }
+  //   }, 40); // 타이핑 속도 조절 (밀리초)
+
+  //   return () => clearInterval(timer);
+  // },)
   return (
     <div className="toss-recommendation">
       <h1>사진 보고 Toss 추천 받기</h1>
@@ -78,7 +117,16 @@ function TossRecommendation() {
         </div>
       )}
       
-      {showContent && (
+      <div className="toss-recommendation">
+      <div className="toss-header">
+        <h3>ToSS의 추천</h3>
+        <SoundService audioId={audioId} />
+      </div>
+      <div className="toss-content">
+        <p className="typing-effect">{text}</p>
+      </div>
+    </div>
+      {/* {showContent && (
         <TossRecommendationContent 
           audioId={audioId} 
           image={image}
@@ -89,9 +137,9 @@ function TossRecommendation() {
       {recommendationInfo && (
         <div className="recommendation-result">
           <h2>Toss의 추천</h2>
-          <p>{recommendationInfo.recommendation}</p>
+          <p>{}</p>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
