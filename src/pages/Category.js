@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import './css/Category.css';
 import AudioRecorder from './AudioRecorder';
-import UserInput from './category/UserInput';
-import Correction from './category/Correction';
-import Feedback from './category/Feedback';
-import TossRecommendation from './category/TossSaid';
-import ImageContainer from './category/ImageContainer';
+import SoundService from './SoundService';
 import '../Font.css';
 
 function Category() {
@@ -24,23 +20,47 @@ function Category() {
     // 실제 구현 시 이 부분에 서버로 오디오 전송 로직 추가
   };
 
-function ImageContainer({ imageUrl }) {
-  return (
-    <div className="image-container">
-      <img src={imageUrl} alt="" />
-    </div>
-  );
-}
-
   return (
     <div className="app">
       <main>
-        <ImageContainer imageUrl="placeholder.jpg" />
+        <div className="image-container">
+          <img src="placeholder.jpg" alt="연습 이미지" />
+        </div>
         <AudioRecorder onRecordingComplete={handleRecordingComplete} />
-        <UserInput />
-        <Correction />
-        <Feedback audioId={feedbackAudioId} />
-        <TossRecommendation audioId={tossRecommendationAudioId} />
+        <div className="user-input">
+          <h3 >당신의 문장</h3>
+          <p>In this picture, I can see a cat and a dog together. 
+            The cat appears to being a tabby with orange and white fur, while the dog looks like a golden retriever. 
+            They seem to be living room, sitting on a looking comfortable-couch.</p>
+        </div>
+        
+        <div className="correction">
+          <p>In this picture, I can see a cat and a dog together.</p>
+          <p>The cat appears to <span className="correction-green">be</span> a tabby with <span className="correction-green">brown</span> and white fur, <span className="correction-red">mixed breed</span> <span className="correction-green">puppy</span>.</p>
+          <p>They seem to be <span className="correction-green">in an outdoor setting,</span> not sitting on a <span className="correction-red">comfortable-looking</span> couch.</p>
+          <p><span className="correction-blue">appears to be ~</span> : 안쪽에서 더 자세히 보기</p>
+          <p><span className="correction-blue">mixed breed puppy</span> : 안내는 옮은 이름이지만 하나만 맞습니다</p>
+          <p className="score">점수: 82/145</p>
+        </div>
+        
+        <div className="feedback">
+          <SoundService audioId={feedbackAudioId} />
+          <h3>교정과 발음 여부</h3>
+          <ul>
+            <li>문장 리듬: 내용어와 기능어의 적절한 강세와 속도를 유지하세요</li>
+            <li>연음: "cat_and"나 "dog_together" 같이 단어를 부드럽게 연결하세요</li>
+            <li>개별 발음: "together"의 "th" 발음, "retriever"의 "r" 발음에 주의하세요</li>
+            <li>억양: 문장 끝에서 적절한 올림 또는 내림 톤을 사용하세요</li>
+          </ul>
+        </div>
+        
+        <div className="toss-recommendation">
+          <SoundService audioId={tossRecommendationAudioId} />
+          <h3>ToSS의 추천</h3>
+          <p>In the picture, I can see a cat and a dog sitting together outdoors.</p>
+          <p>The cat appears to be a short-haired breed with white and gray fur. It has green eyes and is looking directly at the camera. The cat is sitting on the ground, seeming alert and attentive.</p>
+          <p className="score">정확도: 82/145</p>
+        </div>
       </main>
     </div>
   );

@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './pages/Header';
 import TossRecommendation from './pages/TossRecommendation';
 import CategoryPractice from './pages/Category';
-import Home from './pages/Home'; // Home 컴포넌트 import
 import './App.css';
 
 function App() {
@@ -12,8 +11,7 @@ function App() {
       <div className="app">
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} /> 
-          <Route path="/toss-recommendation" element={<TossRecommendation />} /> 
+          <Route path="/" element={<TossRecommendation />} />
           <Route path="/category" element={<CategoryPractice />} />
         </Routes>
       </div>
