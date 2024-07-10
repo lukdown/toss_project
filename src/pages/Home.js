@@ -1,10 +1,14 @@
-//함수형 컴포넌트
+// Home.js
 import React from "react";
 import './css/Home.css'
 
 const Home = () => {
   return(
-    <h1 id="homeMain">ToSS</h1>
+    <div className="home-container">
+      <div className="home-content">
+        <p>토익 스피킹</p>
+      </div>
+    </div>
   );
 };
 
