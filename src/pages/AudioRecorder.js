@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import './css/AudioRecorder.css';
 
-const AudioRecorder = ({ onRecordingComplete }) => {
+const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [audioURL, setAudioURL] = useState('');
@@ -103,6 +103,7 @@ const AudioRecorder = ({ onRecordingComplete }) => {
         });
         
         console.log('Audio uploaded successfully', response.data);
+        onAudioSend(); // 전송 완료 후 부모 컴포넌트에 알림
       } catch (error) {
         console.error('Error uploading audio', error);
         if (error.response) {
