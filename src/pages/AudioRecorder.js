@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './css/AudioRecorder.css';
 
 const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
@@ -11,6 +12,9 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
 
   const mediaRecorder = useRef(null);
   const chunksRef = useRef([]);
+
+  const navigate = useNavigate();
+  let user_input_txt = null;
 
   useEffect(() => {
     let interval;
@@ -102,8 +106,13 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
           }
         });
         
-        console.log('Audio uploaded successfully', response.data);
+        console.log('성공:', response.data);
+        
+        user_input_txt = response.data;
+        
+
         onAudioSend(); // 전송 완료 후 부모 컴포넌트에 알림
+
       } catch (error) {
         console.error('Error uploading audio', error);
         if (error.response) {
@@ -118,7 +127,9 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
         console.log('Error config:', error.config);
       }
     }
+    navigate('/category', { state: user_input_txt });
   };
+
 
   return (
     <div className="audio-recorder">
