@@ -205,7 +205,7 @@ nav button {
   font-size: 14px;
 }
 
-.user-input, .correction, .feedback, .toss-recommendation {
+.user-input, .correction, .feedback {
   width: 100%;
   background-color: white;
   padding: 30px;

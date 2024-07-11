@@ -1,5 +1,11 @@
 .toss-recommendation {
     text-align: center;
+    width: 100%;
+    background-color: white;
+    padding: 30px 30px 5px 30px;
+    border-radius: 50px;
+    margin-bottom: 30px;
+    box-sizing: border-box;
   }
   
   .dropzone,
@@ -82,4 +88,14 @@
     100% { transform: rotate(360deg); }
   }
 
-
+/* TossRecommendation.css */
+.typing-effect {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+  line-height: 1.5;
+  margin: 0;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
