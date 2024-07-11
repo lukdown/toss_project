@@ -71,19 +71,19 @@ function TossRecommendation() {
   const [text, setText] = useState('');
   const fullText = text;
 
-  // useEffect(() => {
-  //   let index = 0;
-  //   const timer = setInterval(() => {
-  //     if (index < fullText.length) {
-  //       setText((prev) => prev + fullText.charAt(index));
-  //       index++;
-  //     } else {
-  //       clearInterval(timer);
-  //     }
-  //   }, 40); // 타이핑 속도 조절 (밀리초)
+  useEffect(() => {
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index < fullText.length) {
+        setText((prev) => prev + fullText.charAt(index));
+        index++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 40); // 타이핑 속도 조절 (밀리초)
 
-  //   return () => clearInterval(timer);
-  // },)
+    return () => clearInterval(timer);
+  },)
   return (
     <div className="toss-recommendation">
       <h1>사진 보고 Toss 추천 받기</h1>
@@ -126,7 +126,7 @@ function TossRecommendation() {
         <p className="typing-effect">{text}</p>
       </div>
     </div>
-      {/* {showContent && (
+       {showContent && (
         <TossRecommendationContent 
           audioId={audioId} 
           image={image}
@@ -139,7 +139,7 @@ function TossRecommendation() {
           <h2>Toss의 추천</h2>
           <p>{}</p>
         </div>
-      )} */}
+      )} 
     </div>
   );
 }
