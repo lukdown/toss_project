@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './css/Home.css'
 import axios from 'axios';
+import SoundService from './SoundService';
+import TypeWriter from './TypeWriter';
 
 function Home() {
   const [imageBlob, setImageBlob] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const effectRan = useRef(false);
+  
+  const [showContent, setShowContent] = useState(false);
+  const [audioId, setAudioId] = useState(null);
+  const [text, setText] = useState('');
 
   useEffect(() => {
     if (effectRan.current === false) {
@@ -19,7 +25,10 @@ function Home() {
           const blob = new Blob([response.data], { type: 'image/jpeg' });
           const imageObjectURL = URL.createObjectURL(blob);
           setImageBlob(imageObjectURL);
+
+          setText("안녕하세요?")
           setIsLoading(false);
+          setShowContent(true);
         } catch (err) {
           setError('이미지를 불러오는 데 실패했습니다.');
           setIsLoading(false);
@@ -33,7 +42,6 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    // 컴포넌트가 언마운트될 때 URL 객체를 해제합니다.
     return () => {
       if (imageBlob) {
         URL.revokeObjectURL(imageBlob);
@@ -42,9 +50,9 @@ function Home() {
   }, [imageBlob]);
 
   return (
-    <div className="image-container">
-      <div className="image-box">
-        {isLoading ? (
+    <div className="home-image-container">
+      <div className="home-image-box">
+        {loading ? (
           <div>이미지 로딩 중...</div>
         ) : error ? (
           <div>{error}</div>
@@ -52,6 +60,25 @@ function Home() {
           <img src={imageBlob} alt="연습 이미지" />
         )}
       </div>
+
+      {loading && (  
+        <div className="home-loading">
+          <div className="home-loading-spinner"></div>
+          <p>로딩 중...</p>
+        </div>
+      )}
+
+      {showContent && (
+        <div className="home-toss-recommendation">
+          <div className="home-toss-header">
+            <h3>ToSS의 추천</h3>
+            <SoundService audioId={audioId} />
+          </div>
+          <div className="home-toss-content">
+            <TypeWriter text={text} speed={40} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
