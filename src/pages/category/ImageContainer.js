@@ -17,7 +17,7 @@ function ImageContainer({ category }) {
         // 카테고리에 해당하는 이미지 요청
         const response = await axios({
           method: 'post',
-          url: 'http://127.0.0.1:9909/text_to_cartgoryImage/',
+          url: 'http://127.0.0.1:8000/text_to_cartgoryImage/',
           data: formData,
           headers: {
             'Content-Type': 'multipart/form-data',
