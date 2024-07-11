@@ -12,9 +12,17 @@ function ImageContainer({ category }) {
     const fetchImage = async () => {
       setIsLoading(true);
       try {
+        const formData = new FormData();
+        formData.append('text', category);
         // 카테고리에 해당하는 이미지 요청
-        const response = await axios.get(`/api/get-image?category=${category}`, {
-          responseType: 'blob'
+        const response = await axios({
+          method: 'post',
+          url: 'http://127.0.0.1:9909/text_to_cartgoryImage/',
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          responseType: 'blob', 
         });
         const imageObjectURL = URL.createObjectURL(response.data);
         setImageBlob(imageObjectURL);
