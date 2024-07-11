@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import TossSaid from './TossSaid';
 import axios from 'axios';
 
 function ImageContainer({ category }) {
@@ -27,6 +28,7 @@ function ImageContainer({ category }) {
         const imageObjectURL = URL.createObjectURL(response.data);
         setImageBlob(imageObjectURL);
         setIsLoading(false);
+        TossSaid(imageObjectURL)
       } catch (err) {
         setError(category);
         setIsLoading(false);
