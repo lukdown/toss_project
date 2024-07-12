@@ -272,7 +272,6 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
 }
 
 .toss-header h3 {
@@ -322,4 +321,147 @@ textarea {
   opacity: 0;
 }
 
+<<<<<<< HEAD
 /************************/
+=======
+/*********Feedback***************/
+/********* Feedback ***************/
+.feedback-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.feedback-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.feedback-chart-container,
+.feedback-text-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.feedback-chart-container:hover,
+.feedback-text-container:hover {
+  transform: translateY(-5px);
+}
+
+.feedback-chart-title,
+.feedback-text-title {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.feedback-chart {
+  height: 250px;
+  width: 100%;
+}
+.feedback-text-title{
+  font-weight: bold;
+}
+.feedback-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+}
+
+.feedback-table th,
+.feedback-table td {
+  padding: 12px 25px;
+  text-align: left;
+}
+
+.feedback-table th {
+  background-color: #466c77;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.feedback-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.feedback-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.feedback-table th,
+.feedback-table td {
+  border: 1px solid #ddd;
+}
+
+.feedback-table th {
+  border-bottom: 2px solid #ddd;
+}
+
+
+.feedback-error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 20px;
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+.phonetic-feedback-item {
+  background-color: #eef5f7;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  width: 90%;
+  transition: transform 0.3s ease;
+}
+
+.phonetic-feedback-item:hover {
+  transform: translateY(-3px);
+}
+
+.phonetic-feedback-item h4 {
+  margin: 0;
+  color: #007BFF;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.phonetic-feedback-item p {
+  margin: 5px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .feedback-content {
+    grid-template-columns: 1fr;
+  }
+}
+>>>>>>> LEB_react
