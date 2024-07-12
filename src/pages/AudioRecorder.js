@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import './css/AudioRecorder.css';
 
 const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
@@ -14,7 +13,6 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
   const mediaRecorder = useRef(null);
   const chunksRef = useRef([]);
 
-  const navigate = useNavigate();
   let user_input_txt = null;
 
   useEffect(() => {
@@ -97,11 +95,12 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
       try {
         console.log('Audio blob type:', audioBlob.type);
         console.log('Audio blob size:', audioBlob.size);
-
+  
         const formData = new FormData();
         formData.append('file', audioBlob, 'recording.webm');
         
-        const response = await axios.post('http://127.0.0.1:8000/api/automaticspeechrecognition', formData, {
+        // API 엔드포인트 URL을 확인하고 필요하다면 수정하세요
+        const response = await axios.post('http://localhost:8000/api/automaticspeechrecognition', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -110,12 +109,33 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
         console.log('성공:', response.data);
         
         user_input_txt = response.data;
-        
+  
 
-        onAudioSend(); // 전송 완료 후 부모 컴포넌트에 알림
+        const grammarResponse = await axios.post('http://localhost:8000/correct_grammar', {text: user_input_txt.transcription}, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        console.log('성공입니다.:', grammarResponse.data);
+
+        const pronunciationResponse = await axios.post('http://localhost:8000/pronunciatio-assessment/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        console.log('발음 평가 성공:', pronunciationResponse.data);
+
+        // 모든 분석 결과를 부모 컴포넌트로 전달
+        onAudioSend({
+          transcription: user_input_txt.transcription,
+          grammar: grammarResponse.data,
+          pronunciation: pronunciationResponse.data
+        });
 
       } catch (error) {
-        console.error('Error uploading audio', error);
+        console.error('Error processing audio', error);
         if (error.response) {
           console.log('Response data:', error.response.data);
           console.log('Response status:', error.response.status);
@@ -126,26 +146,12 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
           console.log('Error message:', error.message);
         }
         console.log('Error config:', error.config);
-      }
-
-      try {
-        const response = await axios.post('http://localhost:8000/correct_grammar', {text: user_input_txt.transcription}, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-  
-        // const { corrected_text } = response.data;
-        // setCorrectedText(corrected_text);
-        console.log('성공입니다.:', response.data);
-
-      } catch (error) {
-        console.error('Error uploading file:', error);
+        
+        // 에러 메시지를 사용자에게 표시
+        alert('오디오 처리 중 오류가 발생했습니다. 서버 연결을 확인해 주세요.');
       }
     }
-    navigate('/category', { state: user_input_txt });
   };
-
 
   return (
     <div className="audio-recorder">
