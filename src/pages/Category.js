@@ -8,6 +8,61 @@ import Feedback from './category/Feedback';
 import TossSaid from './category/TossSaid';  // TossRecommendation 대신 TossSaid import
 import ImageContainer from './category/ImageContainer';
 import '../Font.css';
+import Select from 'react-select';
+import styled from 'styled-components';
+
+const StyledSelect = styled(Select).attrs({
+  classNamePrefix: 'react-select',
+})`
+  .react-select__control {
+    background-color: #ffffff;
+    width: 480px;
+    height: 40px;
+    padding-right: 15px;
+    border: none;
+    border-radius: 20px;
+    display: flex;
+    text-align: center;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+  .react-select__single-value {
+    color: #000000; /* 텍스트 색상 지정 */
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .react-select__menu {
+    width: 480px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+    text-align: center;
+    overflow: hidden;
+    margin-left: 20px
+  }
+  .react-select__menu-list {
+    overflow: hidden !important;
+  }
+  .react-select__option {
+    background-color: transparent; /* option 배경색 */
+    color: black; /* option 텍스트 색상 */
+  }
+  .react-select__option--is-focused  {
+    background-color: #848E8F; /* 클릭된 option 배경색 */
+    color: white; /* 클릭된 option 텍스트 색상 */
+  }
+  .react-select__dropdown-indicator {
+    display: none; /* 드롭다운 화살표를 숨깁니다. */
+  }
+  .react-select__indicator-separator {
+    display: none; /* 화살표 사이의 구분선을 숨깁니다. */
+  }
+  .react-select__placeholder {
+    color: black;
+    font-weight: 600;
+  }
+`;
 
 function Category() {
   // 상태 변수들 정의
@@ -44,8 +99,8 @@ function Category() {
   };
 
   // 카테고리 선택 시 호출되는 함수
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
+  const handleCategoryChange = (selectedOption) => {
+    setSelectedCategory(selectedOption.value);
   };
 
   // 연습 시작 버튼 클릭 시 호출되는 함수
@@ -55,22 +110,26 @@ function Category() {
     }
   };
 
+  
+  const options = [
+    { value: '', label: '카테고리 선택' },
+    { value: 'education', label: '교육' },
+    { value: 'business', label: '회사' },
+    { value: 'travel', label: '여행' },
+    { value: 'family', label: '가족' },
+    { value: 'leisure', label: '여가' },
+    { value: 'environment', label: '환경' },
+    { value: 'technology', label: '기술' }
+  ];
+  
+
   return (
     <div className="app">
       <main>
         {/* 카테고리 선택 UI */}
         <div className="category-selection">
           <div className="select-wrapper">
-            <select value={selectedCategory} onChange={handleCategoryChange}>
-              <option value="">카테고리 선택</option>
-              <option value="education">교육</option>
-              <option value="business">회사</option>
-              <option value="travel">여행</option>
-              <option value="family">가족</option>
-              <option value="leisure">여가</option>
-              <option value="environment">환경</option>
-              <option value="technology">기술</option>
-            </select>
+            <StyledSelect options={options} value={options.find(option => option.value === selectedCategory)} onChange={handleCategoryChange} />
           </div>
           <button onClick={handleStartPractice} disabled={!selectedCategory}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

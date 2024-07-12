@@ -35,7 +35,7 @@ function TossSaid({ file }) {
       }
     };
 
-    
+    fetchDescription();
   }, [file]);
 
   return (
@@ -51,10 +51,7 @@ function TossSaid({ file }) {
           <pre>{text}</pre>
           }
       </div>
-      <div className="score-box">
-        <span className='score-box-id'>정확도:</span>
-        <span className="score-value">/</span>
-      </div>
+      
     </div>
   );
 }

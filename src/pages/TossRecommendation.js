@@ -47,50 +47,54 @@ function TossRecommendation() {
   };
 
   return (
-    <div className="toss-recommendation">
+    <div className="toss-recommendation-all">
       <h1>사진 보고 Toss 추천 받기</h1>
+      <div className="toss-recommendation">
+        
 
-      {!image ? (
-        <div {...getRootProps()} className="dropzone">
-          <input {...getInputProps()} />
-          {
-            isDragActive ?
-              <p>여기에 사진을 놓으세요...</p> :
-              <p>이곳을 클릭하거나 사진을 끌어다 놓으세요</p>
-          }
-        </div>
-      ) : (
-        <div>
-          <div className="image-container">
-            <img
-              src={image}
-              alt="Uploaded"
-              className="uploaded-image"
-            />
+        {!image ? (
+          <div {...getRootProps()} className="dropzone">
+            <input {...getInputProps()} />
+            {
+              isDragActive ?
+                <p>여기에 사진을 놓으세요...</p> :
+                <p>이곳을 클릭하거나 사진을 끌어다 놓으세요</p>
+            }
           </div>
-          <button onClick={resetImage} className="reset-button">다시하기</button>
-        </div>
-      )}
+        ) : (
+          <div>
+            <div className="image-container">
+              <img
+                src={image}
+                alt="Uploaded"
+                className="uploaded-image"
+              />
+            </div>
+            <button onClick={resetImage} className="reset-button">다시하기</button>
+          </div>
+        )}
 
-      {loading && (
-        <div className="loading">
-          <div className="loading-spinner"></div>
-          <p>로딩 중...</p>
-        </div>
-      )}
+        {loading && (
+          <div className="loading">
+            <div className="loading-spinner"></div>
+            <p>로딩 중...</p>
+          </div>
+        )}
 
-      {showContent && (
-        <div className="toss-recommendation">
-          <div className="toss-header">
-            <h3>ToSS의 추천</h3>
-            <SoundService audioId={audioId} />
+        {showContent && (
+          <div className="toss-recommendation">
+            <div className="toss-header">
+              <h3>ToSS의 추천</h3>
+              <SoundService audioId={audioId} />
+            </div>
+            <div className="toss-content">
+              <TypeWriter text={text} speed={40} />
+            </div>
           </div>
-          <div className="toss-content">
-            <TypeWriter text={text} speed={40} />
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
+    
   );
 }
 
