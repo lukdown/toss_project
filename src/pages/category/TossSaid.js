@@ -8,14 +8,14 @@ function TossSaid(file) {
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = axios({
-    method: 'post',
-    url: 'http://127.0.0.1:8000/image_description/',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  // const response = axios({
+  //   method: 'post',
+  //   url: 'http://127.0.0.1:8000/image_description/',
+  //   data: formData,
+  //   headers: {
+  //     'Content-Type': 'multipart/form-data',
+  //   },
+  // });
     
   
 
@@ -28,7 +28,7 @@ function TossSaid(file) {
       </div>
       {/* ToSS의 추천 내용 */}
       <div className="toss-content">
-        <p>{response}</p>
+        {/* <p>{response}</p> */}
         {/* <p>The cat appears to be a short-haired breed with white and gray fur. It has green eyes and is looking directly at the camera. The cat is sitting on the ground, seeming alert and attentive.</p> */}
       </div>
       {/* 정확도 표시 */}
