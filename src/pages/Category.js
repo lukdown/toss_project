@@ -20,6 +20,7 @@ function Category() {
   const [showCorrection, setShowCorrection] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [showTossRecommendation, setShowTossRecommendation] = useState(false);
+  const [analysisData, setAnalysisData] = useState(null);  // 새로운 상태 추가
 
   // 컴포넌트 마운트 시 오디오 ID 설정
   useEffect(() => {
@@ -34,7 +35,9 @@ function Category() {
   };
 
   // 오디오 전송 시 호출되는 함수
-  const handleAudioSend = () => {
+  const handleAudioSend = (data) => {
+    console.log("Received data in Category:", data);  // 데이터 확인을 위한 로그
+    setAnalysisData(data);  // 받은 데이터를 상태로 저장
     setShowAdditionalContent(true);
     
     // 각 컴포넌트를 순차적으로 표시
@@ -94,24 +97,24 @@ function Category() {
               <>
                 {showUserInput && (
                   <div className="fly-in">
-                    <UserInput />
+                    <UserInput analysisData={analysisData}/>
                   </div>
                 )}
                 {showCorrection && (
                   <div className="fly-in delay-1">
-                    <Correction />
+                    <Correction analysisData={analysisData} />
                   </div>
                 )}
-                {showFeedback && (
+                {showFeedback && analysisData && (
                   <div className="fly-in delay-2">
-                    <Feedback audioId={feedbackAudioId} />
+                    <Feedback analysisData={analysisData} />
                   </div>
                 )}
-                {showTossRecommendation && (
+                {/* {showTossRecommendation && (
                   <div className="fly-in delay-3">
                     <TossRecommendation audioId={tossRecommendationAudioId} />
                   </div>
-                )}
+                )} */}
               </>
             )}
           </>

@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 
-function Correction() {
-  const location = useLocation();
-  const { transcription } = location.state || {};
-
-
+function Correction({analysisData}) {
+  console.log("Received analysisData:", analysisData); // 데이터 확인을 위한 로그
   
 
   return (
     <div className="correction">
-      <p>{transcription}</p>
+      <h3>문법 교정 결과</h3>
+      <p>{analysisData.grammar?.corrected_text || '문법 교정 결과가 없습니다.'}</p>
     </div>
   );
 }
