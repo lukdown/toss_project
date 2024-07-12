@@ -87,61 +87,65 @@ const handleAudioEnded = () => {
 };
 
   return (
-    <div className="toss-recommendation">
+    <div>
       <h1>사진 보고 Toss 추천 받기</h1>
+      <div className="toss-recommendation">
+        
 
-      {!image ? (
-        <div {...getRootProps()} className="dropzone">
-          <input {...getInputProps()} />
-          {
-            isDragActive ?
-              <p>여기에 사진을 놓으세요...</p> :
-              <p>이곳을 클릭하거나 사진을 끌어다 놓으세요</p>
-          }
-        </div>
-      ) : (
-        <div>
-          <div className="image-container">
-            <img
-              src={image}
-              alt="Uploaded"
-              className="uploaded-image"
-            />
+        {!image ? (
+          <div {...getRootProps()} className="dropzone">
+            <input {...getInputProps()} />
+            {
+              isDragActive ?
+                <p>여기에 사진을 놓으세요...</p> :
+                <p>이곳을 클릭하거나 사진을 끌어다 놓으세요</p>
+            }
           </div>
-          <button onClick={() => {resetImage(); handleTextToSpeech();}} className="reset-button">다시하기</button>
-        </div>
-      )}
+        ) : (
+          <div>
+            <div className="image-container">
+              <img
+                src={image}
+                alt="Uploaded"
+                className="uploaded-image"
+              />
+            </div>
+            <button onClick={() => {resetImage(); handleTextToSpeech();}} className="reset-button">다시하기</button>
+          </div>
+        )}
 
-      {loading && (
-        <div className="loading">
-          <div className="loading-spinner"></div>
-          <p>로딩 중...</p>
-        </div>
-      )}
+        {loading && (
+          <div className="loading">
+            <div className="loading-spinner"></div>
+            <p>로딩 중...</p>
+          </div>
+        )}
 
-      {showContent && (
-        <div className="toss-recommendation">
-          <div className="toss-header">
-            <h3>ToSS의 추천</h3>
-            <SoundService audioId={audioId} />
+        {showContent && (
+          <div className="toss-recommendation">
+            <div className="toss-header">
+              <h3>ToSS의 추천</h3>
+              <SoundService audioId={audioId} />
+            </div>
+            {showPlayButton && (
+              <button onClick={handleTextToSpeech} disabled={isPlaying}>
+                <svg viewBox="0 0 24 24" className="icon">
+                  <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                  <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                </svg>
+                음성 재생
+              </button>
+            )}
+            <audio ref={audioRef} onEnded={handleAudioEnded} controls style={{ display: 'block' }} />
+            <div className="toss-content">
+              <TypeWriter text={text} speed={40} />
+            </div>
           </div>
-          {showPlayButton && (
-            <button onClick={handleTextToSpeech} disabled={isPlaying}>
-              <svg viewBox="0 0 24 24" className="icon">
-                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
-                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
-              </svg>
-              음성 재생
-            </button>
-          )}
-          <audio ref={audioRef} onEnded={handleAudioEnded} controls style={{ display: 'block' }} />
-          <div className="toss-content">
-            <TypeWriter text={text} speed={40} />
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
+
 }
 
 export default TossRecommendation;
