@@ -111,7 +111,7 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
         user_input_txt = response.data;
   
 
-        const grammarResponse = await axios.post('http://localhost:8000/correct_grammar', {text: user_input_txt.transcription}, {
+        const grammarResponse = await axios.post('http://localhost:8000/correct-grammar', {text: user_input_txt.transcription}, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -127,7 +127,7 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
 
         console.log('발음 평가 성공:', pronunciationResponse.data);
 
-        // 모든 분석 결과를 부모 컴포넌트로 전달
+        // 모든 분석 결과를 부모 컴포넌트로 전달 유영수는 보아라
         onAudioSend({
           transcription: user_input_txt.transcription,
           grammar: grammarResponse.data,

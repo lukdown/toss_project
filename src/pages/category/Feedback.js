@@ -238,6 +238,8 @@ function Feedback({ analysisData }) {
   return (
     <div className="feedback-container">
       <h2 className="feedback-title">발음 분석</h2>
+      //영수 존~~
+
       <div className="feedback-content">
         <div className="feedback-chart-container">
           <h3 className="feedback-chart-title">문장 점수</h3>
