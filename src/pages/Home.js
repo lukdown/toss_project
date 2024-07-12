@@ -37,7 +37,7 @@ function Home() {
           formData.append('file', file);
 
           // formData를 API 엔드포인트로 전송
-          const discription = await axios.post('http://127.0.0.1:8000/image_description/', formData, {
+          const discription = await axios.post('http://127.0.0.1:8000/image-description/', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
