@@ -321,6 +321,10 @@ textarea {
   opacity: 0;
 }
 
+<<<<<<< HEAD
+/************************/
+=======
+/*********Feedback***************/
 /********* Feedback ***************/
 .feedback-container {
   max-width: 1000px;
@@ -460,3 +464,4 @@ textarea {
     grid-template-columns: 1fr;
   }
 }
+>>>>>>> LEB_react

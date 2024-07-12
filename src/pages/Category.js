@@ -74,8 +74,11 @@ function Category() {
   const [showCorrection, setShowCorrection] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [showTossRecommendation, setShowTossRecommendation] = useState(false);
+<<<<<<< HEAD
   const [imageFile, setImageFile] = useState(null);  // 새로운 상태 추가
+=======
   const [analysisData, setAnalysisData] = useState(null);  // 새로운 상태 추가
+>>>>>>> LEB_react
 
   // 컴포넌트 마운트 시 오디오 ID 설정
   useEffect(() => {
@@ -171,11 +174,11 @@ function Category() {
                     <Feedback analysisData={analysisData} />
                   </div>
                 )}
-                {showTossRecommendation && (
+                {/* {showTossRecommendation && (
                   <div className="fly-in delay-3">
                     <TossSaid file={imageFile} />  {/* TossRecommendation을 TossSaid로 교체 */}
                   </div>
-                )} 
+                )} */}
               </>
             )}
           </>
