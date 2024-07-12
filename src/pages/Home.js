@@ -14,14 +14,29 @@ function Home() {
         setIsLoading(true);
         try {
           const response = await axios.get('http://127.0.0.1:8000/random-image-generator', {
-            responseType: 'arraybuffer'
+            responseType: 'arraybuffer',
+            maxRedirects: 0,  // 리다이렉트 방지
+            validateStatus: function (status) {
+              return status >= 200 && status < 300; // 기본값
+            }
           });
+          
           const blob = new Blob([response.data], { type: 'image/jpeg' });
           const imageObjectURL = URL.createObjectURL(blob);
           setImageBlob(imageObjectURL);
           setIsLoading(false);
         } catch (err) {
-          setError('이미지를 불러오는 데 실패했습니다.');
+          console.error('Error fetching image:', err);
+          if (err.response) {
+            // 서버가 2xx 범위를 벗어나는 상태 코드로 응답한 경우
+            setError(`서버 에러: ${err.response.status}`);
+          } else if (err.request) {
+            // 요청이 전송되었지만 응답을 받지 못한 경우
+            setError('서버로부터 응답이 없습니다.');
+          } else {
+            // 요청 설정 중에 오류가 발생한 경우
+            setError('요청 설정 중 오류가 발생했습니다.');
+          }
           setIsLoading(false);
         }
       };
