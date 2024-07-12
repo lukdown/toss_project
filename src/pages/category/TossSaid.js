@@ -10,7 +10,7 @@ function TossSaid(file) {
 
   const response = axios({
     method: 'post',
-    url: 'http://127.0.0.1:8000/image_description/',
+    url: 'http://127.0.0.1:8000/image-description/',
     data: formData,
     headers: {
       'Content-Type': 'multipart/form-data',
