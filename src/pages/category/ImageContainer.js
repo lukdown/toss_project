@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import TossSaid from './TossSaid';
 import axios from 'axios';
 
-function ImageContainer({ category }) {
-  // 상태 변수들 정의
+function ImageContainer({ category, setImageFile }) {
   const [imageBlob, setImageBlob] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // 카테고리가 변경될 때마다 이미지 fetch
   useEffect(() => {
+    let isMounted = true;
+
     const fetchImage = async () => {
       setIsLoading(true);
+      setError(null);
+
       try {
         const formData = new FormData();
         formData.append('text', category);
-        // 카테고리에 해당하는 이미지 요청
+
         const response = await axios({
           method: 'post',
           url: 'http://127.0.0.1:8000/text_to_cartgoryImage/',
@@ -23,15 +24,24 @@ function ImageContainer({ category }) {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-          responseType: 'blob', 
+          responseType: 'blob',
         });
+
         const imageObjectURL = URL.createObjectURL(response.data);
-        setImageBlob(imageObjectURL);
-        setIsLoading(false);
-        TossSaid(imageObjectURL)
+        const fileName = 'category_image.jpg';
+        const file = new File([response.data], fileName, { type: response.data.type });
+
+        if (isMounted) {
+          setImageBlob(imageObjectURL);
+          setImageFile(file);  // 부모 컴포넌트의 상태 업데이트
+          setIsLoading(false);
+        }
       } catch (err) {
-        setError(category);
-        setIsLoading(false);
+        console.error("이미지 로딩 중 오류 발생:", err);
+        if (isMounted) {
+          setError(`이미지 로딩 실패: ${err.message}`);
+          setIsLoading(false);
+        }
       }
     };
 
@@ -39,15 +49,14 @@ function ImageContainer({ category }) {
       fetchImage();
     }
 
-    // 컴포넌트 언마운트 시 Blob URL 해제
     return () => {
+      isMounted = false;
       if (imageBlob) {
         URL.revokeObjectURL(imageBlob);
       }
     };
-  }, [category]);
+  }, [category, setImageFile]);
 
-  // 렌더링 로직
   if (!category) {
     return <div>카테고리를 선택해주세요.</div>;
   }
@@ -62,7 +71,17 @@ function ImageContainer({ category }) {
 
   return (
     <div className="image-container">
-      {imageBlob && <img src={imageBlob} alt={`${category} 관련 이미지`} />}
+      {imageBlob && (
+        <img 
+          src={imageBlob} 
+          alt={`${category} 관련 이미지`} 
+          onLoad={() => console.log("이미지 로딩 완료")}
+          onError={(e) => {
+            console.error("이미지 로딩 실패", e);
+            setError("이미지 로딩에 실패했습니다.");
+          }}
+        />
+      )}
     </div>
   );
 }
