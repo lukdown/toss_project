@@ -38,7 +38,7 @@ const SoundService = ({ audioId }) => {
     };
   }, [audioId]);
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return <div></div>;
   if (error) return <div>{error}</div>;
 
   return (
