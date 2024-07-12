@@ -14,6 +14,7 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
   const chunksRef = useRef([]);
 
   let user_input_txt = null;
+  let correction_output_txt = null;
 
   useEffect(() => {
     let interval;
@@ -118,6 +119,7 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
         });
 
         console.log('성공입니다.:', grammarResponse.data);
+        correction_output_txt = grammarResponse.data;
 
         const pronunciationResponse = await axios.post('http://localhost:8000/pronunciatio-assessment/', formData, {
           headers: {

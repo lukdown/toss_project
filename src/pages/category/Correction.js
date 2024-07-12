@@ -1,37 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
-function Correction() {
-  const location = useLocation();
-  const { transcription } = location.state || {};
-  const [correctedText, setCorrectedText] = useState('');
+function Correction({ analysisData }) {
+  // const location = useLocation();
+  // const { transcription } = location.state || {};
 
-  useEffect(() => {
-    const fetchCorrectedText = async () => {
-      try {
-        const formData = new FormData();
-        formData.append('text', transcription);
 
-        const response = await axios.post('http://127.0.0.1:8000/correct-grammar/', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        setCorrectedText(response.data.corrected_text);
-      } catch (error) {
-        console.error('Error fetching corrected text:', error);
-      }
-    };
-
-    if (transcription) {
-      fetchCorrectedText();
-    }
-  }, [transcription]);
+  
 
   return (
     <div className="correction">
-      <p dangerouslySetInnerHTML={{ __html: correctedText }} />
+      <h3>Grammar</h3>
+      <p>당신의 문장: {analysisData?.grammar.original_text.text || '입력된 문장이 없습니다.'}</p>
+      <p>교정된 문장: {analysisData?.grammar.corrected_text || '입력된 문장이 없습니다.'}</p>
     </div>
   );
 }
