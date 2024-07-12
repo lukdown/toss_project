@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/AudioRecorder.css';
 
 const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
+  const [correctedText, setCorrectedText] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [audioURL, setAudioURL] = useState('');
@@ -125,6 +126,21 @@ const AudioRecorder = ({ onRecordingComplete, onAudioSend }) => {
           console.log('Error message:', error.message);
         }
         console.log('Error config:', error.config);
+      }
+
+      try {
+        const response = await axios.post('http://localhost:8000/correct_grammar', {text: user_input_txt.transcription}, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        // const { corrected_text } = response.data;
+        // setCorrectedText(corrected_text);
+        console.log('성공입니다.:', response.data);
+
+      } catch (error) {
+        console.error('Error uploading file:', error);
       }
     }
     navigate('/category', { state: user_input_txt });
