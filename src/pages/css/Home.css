@@ -30,13 +30,10 @@
 }
 
 .home-loading {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
 }
 
 /**로딩*/
@@ -46,7 +43,7 @@
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  animation: home-spin 1s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
 .home-loading p {
