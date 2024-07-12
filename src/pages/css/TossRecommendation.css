@@ -98,3 +98,13 @@
   padding: 10px;
   border-radius: 10px;
 }
+
+.typing-effect pre{
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+  line-height: 1.5;
+  margin: 0;
+  padding: 10px;
+  border-radius: 10px;
+}

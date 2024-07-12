@@ -5,14 +5,13 @@ import AudioRecorder from './AudioRecorder';
 import UserInput from './category/UserInput';
 import Correction from './category/Correction';
 import Feedback from './category/Feedback';
-import TossRecommendation from './category/TossSaid';
+import TossSaid from './category/TossSaid';  // TossRecommendation 대신 TossSaid import
 import ImageContainer from './category/ImageContainer';
 import '../Font.css';
 
 function Category() {
   // 상태 변수들 정의
   const [feedbackAudioId, setFeedbackAudioId] = useState(null);
-  const [tossRecommendationAudioId, setTossRecommendationAudioId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showContent, setShowContent] = useState(false);
   const [showAdditionalContent, setShowAdditionalContent] = useState(false);
@@ -20,11 +19,11 @@ function Category() {
   const [showCorrection, setShowCorrection] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [showTossRecommendation, setShowTossRecommendation] = useState(false);
+  const [imageFile, setImageFile] = useState(null);  // 새로운 상태 추가
 
   // 컴포넌트 마운트 시 오디오 ID 설정
   useEffect(() => {
     setFeedbackAudioId('feedback-test-id');
-    setTossRecommendationAudioId('toss-test-id');
   }, []);
 
   // 녹음 완료 시 호출되는 함수
@@ -84,12 +83,15 @@ function Category() {
         {/* 선택된 카테고리에 따른 컨텐츠 표시 */}
         {showContent && (
           <>
-            <ImageContainer category={selectedCategory} />
+            <ImageContainer 
+              category={selectedCategory}
+              setImageFile={setImageFile}  // setImageFile prop 추가
+            />
             <AudioRecorder 
               onRecordingComplete={handleRecordingComplete} 
               onAudioSend={handleAudioSend}
             />
-            {/* 추가 컨텐츠 (UserInput, Correction, Feedback, TossRecommendation) */}
+            {/* 추가 컨텐츠 (UserInput, Correction, Feedback, TossSaid) */}
             {showAdditionalContent && (
               <>
                 {showUserInput && (
@@ -109,7 +111,7 @@ function Category() {
                 )}
                 {showTossRecommendation && (
                   <div className="fly-in delay-3">
-                    <TossRecommendation audioId={tossRecommendationAudioId} />
+                    <TossSaid file={imageFile} />  {/* TossRecommendation을 TossSaid로 교체 */}
                   </div>
                 )}
               </>
