@@ -16,38 +16,45 @@ function TossSaid({ file }) {
   const [showPlayButton, setShowPlayButton] = useState(true);
   const [showAudioControl, setShowAudioControl] = useState(false);
 
+  const effectRan = useRef(false);
+
   useEffect(() => {
-    const fetchDescription = async () => {
-      if (!file) return;
+    if (effectRan.current === false) {
+      const fetchDescription = async () => {
+        if (!file) return;
 
-      setIsLoading(true);
-      setError(null);
+        setIsLoading(true);
+        setError(null);
 
-      const formData = new FormData();
-      formData.append('file', file);
+        const formData = new FormData();
+        formData.append('file', file);
 
-      try {
-        const response = await axios({
-          method: 'post',
-          url: 'http://127.0.0.1:8000/image-description',
-          data: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        setText(response.data);
-        user_input_txt.current = response.data;
-        
-        setShowContent(true);
-      } catch (err) {
-        console.error("Error fetching image description:", err);
-        setError("Failed to get image description");
-      } finally {
-        setIsLoading(false);
-      }
+        try {
+          const response = await axios({
+            method: 'post',
+            url: 'http://127.0.0.1:8000/image-description',
+            data: formData,
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          setText(response.data);
+          user_input_txt.current = response.data;
+          
+          setShowContent(true);
+        } catch (err) {
+          console.error("Error fetching image description:", err);
+          setError("Failed to get image description");
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchDescription()
+    }
+    return () => {
+        effectRan.current = true;
     };
-
-    fetchDescription()
   }, [file]);
 
   const handleTextToSpeech = async () => {
