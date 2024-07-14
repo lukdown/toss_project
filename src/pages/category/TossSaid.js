@@ -86,7 +86,7 @@ function TossSaid({ file }) {
   const handleAudioEnded = () => {
     setIsPlaying(false);
     setShowPlayButton(true);
-    setShowAudioControl(false);
+    // setShowAudioControl(false);
   };
 
   return (
