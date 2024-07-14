@@ -13,10 +13,11 @@ function Home() {
     const [showContent, setShowContent] = useState(false);
     const [audioId, setAudioId] = useState(null);
     const [text, setText] = useState('');
-    const user_input_txt = useRef(null);  // useRef로 변경
+    const user_input_txt = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef(null);
     const [showPlayButton, setShowPlayButton] = useState(true);
+    const [showAudioControl, setShowAudioControl] = useState(false);
 
     useEffect(() => {
         if (effectRan.current === false) {
@@ -45,7 +46,7 @@ function Home() {
                         },
                     });
 
-                    user_input_txt.current = description.data;  // useRef를 사용해 값 저장
+                    user_input_txt.current = description.data;
                     setText(description.data);
                     setIsLoading(false);
                     setShowContent(true);
@@ -77,38 +78,43 @@ function Home() {
         };
     }, [imageBlob]);
 
-
     const handleTextToSpeech = async () => {
-      try {
-        setIsPlaying(true);
-        setShowPlayButton(false);  // 버튼 숨기기
+        try {
+            setIsPlaying(true);
+            setShowPlayButton(false);
+            setShowAudioControl(true);
 
-        const response = await axios.post('http://127.0.0.1:8000/text-to-speech/', 
-            { text: user_input_txt.current },
-            { responseType: 'blob' }
-        );
+            const response = await axios.post('http://127.0.0.1:8000/text-to-speech/', 
+                { text: user_input_txt.current },
+                { responseType: 'blob' }
+            );
 
-        const audioBlob = new Blob([response.data], { type: 'audio/webm' });
-        const audioUrl = URL.createObjectURL(audioBlob);
+            const audioBlob = new Blob([response.data], { type: 'audio/webm' });
+            const audioUrl = URL.createObjectURL(audioBlob);
 
-        if (audioRef.current) {
-            audioRef.current.src = audioUrl;
-            audioRef.current.load(); // 추가: 오디오 로드
-            audioRef.current.play().catch(e => {
-                console.error("Audio playback failed", e);
-                setIsPlaying(false);
-            });
+            if (audioRef.current) {
+                audioRef.current.src = audioUrl;
+                audioRef.current.load();
+                audioRef.current.play().catch(e => {
+                    console.error("Audio playback failed", e);
+                    setIsPlaying(false);
+                    setShowPlayButton(true);
+                    setShowAudioControl(false);
+                });
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            setIsPlaying(false);
+            setShowPlayButton(true);
+            setShowAudioControl(false);
         }
+    };
 
-    } catch (error) {
-        console.error('Error:', error);
+    const handleAudioEnded = () => {
         setIsPlaying(false);
-    }
-  };
-
-  const handleAudioEnded = () => {
-      setIsPlaying(false);
-  };
+        setShowPlayButton(true);
+    };
 
     return (
         <div className="home-image-container">
@@ -133,18 +139,21 @@ function Home() {
                     <div className="home-toss-header">
                         <h3>ToSS의 추천</h3>
                         <SoundService audioId={audioId} />
-                        {/* {isPlaying ? '재생 중...' : '음성 재생'} */}
                     </div>
-                    {showPlayButton && (
-                      <button onClick={handleTextToSpeech} disabled={isPlaying}>
-                          <svg viewBox="0 0 24 24" className="icon">
-                              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
-                              <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
-                          </svg>
-                          음성 재생
-                      </button>
-                    )}
-                    <audio ref={audioRef} onEnded={handleAudioEnded} controls style={{ display: 'block' }} />
+                    <div className="playing-btn-box">
+                        {showAudioControl && (
+                            <audio ref={audioRef} onEnded={handleAudioEnded} controls style={{ display: 'block' }} />
+                        )}
+                        {showPlayButton && (
+                            <button className="home-playing-btn" onClick={handleTextToSpeech} disabled={isPlaying}>
+                                <span>
+                                    <svg viewBox="0 0 24 24" className="icon">
+                                    <path d="M12 1a9 9 0 0 0-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7a9 9 0 0 0-9-9z" />
+                                    </svg>
+                                </span>
+                            </button>
+                        )}
+                    </div>
                     <div className="home-toss-content">
                         <TypeWriter text={text} speed={40} />
                     </div>
