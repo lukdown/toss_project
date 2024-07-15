@@ -17,6 +17,7 @@ function TossRecommendation() {
   const audioRef = useRef(null);
   const [showPlayButton, setShowPlayButton] = useState(true);
   const [showAudioControl, setShowAudioControl] = useState(false);
+  const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
@@ -57,7 +58,7 @@ function TossRecommendation() {
   const handleTextToSpeech = async () => {
     try {
       setIsPlaying(true);
-      setShowPlayButton(false);
+      setHasPlayedOnce(true);
       setShowAudioControl(true);
       console.log(text);
 
@@ -133,12 +134,12 @@ function TossRecommendation() {
               <SoundService audioId={audioId} />
             </div>
             <div className="TossRecommendation-playing-btn-box">
-              {showPlayButton && (
+              {!hasPlayedOnce && (
                 <button className="TossRecommendation-playing-btn" onClick={handleTextToSpeech} disabled={isPlaying}>
                   <svg viewBox="0 0 24 24" className="icon">
                     <path d="M12 1a9 9 0 0 0-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7a9 9 0 0 0-9-9z" />
                   </svg>
-                  음성 재생
+                
                 </button>
               )}
               {showAudioControl && (

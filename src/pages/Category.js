@@ -145,37 +145,41 @@ function Category() {
         {/* 선택된 카테고리에 따른 컨텐츠 표시 */}
         {showContent && (
           <>
-            <ImageContainer 
-              category={selectedCategory}
-              setImageFile={setImageFile}  // setImageFile prop 추가
-            />
-            <AudioRecorder 
-              onRecordingComplete={handleRecordingComplete} 
-              onAudioSend={handleAudioSend}
-            />
+            <div className="content-container">
+              <ImageContainer 
+                category={selectedCategory}
+                setImageFile={setImageFile}
+              />
+            </div>
+            <div>
+              <AudioRecorder 
+                onRecordingComplete={handleRecordingComplete} 
+                onAudioSend={handleAudioSend}
+              />
+            </div>
             {/* 추가 컨텐츠 (UserInput, Correction, Feedback, TossSaid) */}
             {showAdditionalContent && (
               <>
-                {showUserInput && (
-                  <div className="fly-in">
-                    <UserInput analysisData={analysisData}/>
+                <div className="content-container fly-in">
+                  <UserInput analysisData={analysisData}/>
+                </div>
+                <div className="content-container fly-in delay-1">
+                  <Correction analysisData={analysisData} />
+                </div>
+                <div className="content-container fly-in delay-2">
+                  <div className="feedback-container">
+                    {showFeedback && analysisData && (
+                      <div className="feedback-item">
+                        <Feedback analysisData={analysisData} />
+                      </div>
+                    )}
                   </div>
-                )}
-                {showCorrection && (
-                  <div className="fly-in delay-1">
-                    <Correction analysisData={analysisData} />
-                  </div>
-                )}
-                {showFeedback && analysisData && (
-                  <div className="fly-in delay-2">
-                    <Feedback analysisData={analysisData} />
-                  </div>
-                )}
+                </div>
                 {showTossRecommendation && (
-                  <div className="fly-in delay-3">
-                    <TossSaid file={imageFile} />  {/* TossRecommendation을 TossSaid로 교체 */}
+                  <div className="content-container toss-said-container fly-in delay-3">
+                    <TossSaid file={imageFile} analysisData={analysisData} />
                   </div>
-                )} 
+                )}
               </>
             )}
           </>
