@@ -18,6 +18,7 @@ function Home() {
     const audioRef = useRef(null);
     const [showPlayButton, setShowPlayButton] = useState(true);
     const [showAudioControl, setShowAudioControl] = useState(false);
+    const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
 
     useEffect(() => {
         if (effectRan.current === false) {
@@ -81,7 +82,7 @@ function Home() {
     const handleTextToSpeech = async () => {
         try {
             setIsPlaying(true);
-            setShowPlayButton(false);
+            setHasPlayedOnce(true);
             setShowAudioControl(true);
 
             const response = await axios.post('http://127.0.0.1:8000/text-to-speech/', 
@@ -144,7 +145,7 @@ function Home() {
                         {showAudioControl && (
                             <audio ref={audioRef} onEnded={handleAudioEnded} controls style={{ display: 'block' }} />
                         )}
-                        {showPlayButton && (
+                        {!hasPlayedOnce && (  // 이 부분을 변경
                             <button className="home-playing-btn" onClick={handleTextToSpeech} disabled={isPlaying}>
                                 <span>
                                     <svg viewBox="0 0 24 24" className="icon">

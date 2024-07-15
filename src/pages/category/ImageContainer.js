@@ -62,7 +62,12 @@ function ImageContainer({ category, setImageFile }) {
   }
 
   if (isLoading) {
-    return <div>이미지 로딩 중...</div>;
+    return (
+      <div>
+        <div className="loader"></div>
+        <p className="loading-text">이미지 로딩 중...</p>
+      </div>
+    );
   }
 
   if (error) {
